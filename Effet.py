@@ -69,8 +69,8 @@ class EffetRascalLeFlambeur(Effet):
 
 class EffetJuanitaJade(Effet):
     def activer(self, partie, joueur, carte):
-        print("Juanita Jade : voici les cartes non distribuées cette manche :")
-        for c in partie.cartes_non_distribuees:
+        print("🔍 Juanita Jade : voici les cartes non distribuées cette manche :")
+        for c in partie.deck.cartes:
             print(f"- {c}")
 
 class EffetHarryLeGeant(Effet):

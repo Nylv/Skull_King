@@ -187,23 +187,17 @@ def resoudre_pli(self, plis):
         if idx_k > idx_b:
             return None  # Kraken dévore tout
         else:
-            return self.evaleurr_baleine(plis)
+            return self._effet_baleine(plis)
 
     if "Kraken" in names:
         return None
 
     if "Baleine blanche" in names:
-        return self.evaleurr_baleine(plis)
+        return self._effet_baleine(plis)
 
     # Sinon : priorité Skull King > Pirate > Sirène > Atout > Couleur
     # Simplification à améliorer
     return plis[0][0]  # Par défaut : premier joueur
-
-def evaleurr_baleine(self, plis):
-    numeriques = [(j, c) for j, c in plis if hasattr(c, 'valeur')]
-    if not numeriques:
-        return None
-    return max(numeriques, key=lambda jc: jc[1].valeur)[0]
 
 def comptabiliser_points(self, paris, nb_cartes):
     print("\n--- Résultats de la manche ---")
@@ -268,4 +262,17 @@ def comptabiliser_points(self, paris, nb_cartes):
                         print(f"💰 Bonus Butin : {joueur_bonus.nom} gagne +20 points grâce au Butin posé par {poseur.nom}")
                         joueur_bonus.points += 20
                         break  # un seul bonus par manche suffit
+    
+    # 4. 🎰 Rascal - mise secrète
+    for joueur in self.joueurs:
+        if hasattr(joueur, "mise_rascal"):
+            mise = paris[joueur]["mise"]
+            plis = len(joueur.plis)
+            if mise == plis:
+                print(f"🎰 Rascal : {joueur.nom} gagne {joueur.mise_rascal} points bonus.")
+                joueur.points += joueur.mise_rascal
+            else:
+                print(f"🎰 Rascal : {joueur.nom} perd {joueur.mise_rascal} points.")
+                joueur.points -= joueur.mise_rascal
+
 
